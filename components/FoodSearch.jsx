@@ -4,6 +4,7 @@ import { useState } from "react";
 export default function FoodSearch() {
   const [foodId, setFoodId] = useState("");
   const [food, setFood] = useState(null);
+  const [nutrition, setNutrition] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -11,15 +12,30 @@ export default function FoodSearch() {
     if (!foodId) return;
     setLoading(true);
     setError("");
+    setFood(null);
+    setNutrition(null);
 
     try {
-      const res = await fetch(`https://dataportal.livsmedelsverket.se/livsmedel/api/v1/livsmedel/${foodId}?sprak=1`);
-      if (!res.ok) throw new Error("Livsmedel hittades inte!");
-      const data = await res.json();
-      setFood(data);
+      // Hämta livsmedelsinformation
+      const foodRes = await fetch(`https://dataportal.livsmedelsverket.se/livsmedel/api/v1/livsmedel/${foodId}?sprak=1`);
+      if (!foodRes.ok) throw new Error("Livsmedel hittades inte!");
+      const foodData = await foodRes.json();
+      setFood(foodData);
+
+      // Hämta näringsvärden
+      const nutritionRes = await fetch(`https://dataportal.livsmedelsverket.se/livsmedel/api/v1/livsmedel/${foodId}/naringsvarden?sprak=1`);
+      if (!nutritionRes.ok) throw new Error("Näringsvärden kunde inte hämtas!");
+      const nutritionData = await nutritionRes.json();
+
+      // Extrahera endast namn och värde för näringsvärdena
+      const filteredNutrition = nutritionData.map(item => ({
+        namn: item.namn,
+        varde: item.varde
+      }));
+
+      setNutrition(filteredNutrition);
     } catch (err) {
       setError(err.message);
-      setFood(null);
     } finally {
       setLoading(false);
     }
@@ -46,9 +62,21 @@ export default function FoodSearch() {
 
       {food && (
         <div style={{ padding: "10px", border: "1px solid #ccc", marginTop: "10px", backgroundColor: "#f9f9f9" }}>
-          <h2>{foodId}</h2>
-          <p><strong>Livsmedelsnamn:</strong> {food.namn}</p>
+          <h2>Livsmedelsnamn: {food.namn}</h2>
           <p><strong>Analys:</strong> {food.analys}</p>
+        </div>
+      )}
+
+      {nutrition && (
+        <div style={{ marginTop: "10px", padding: "10px", border: "1px solid #ccc", backgroundColor: "#eef" }}>
+          <h3>Näringsvärden (per 100g)</h3>
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {nutrition.map((item, index) => (
+              <li key={index}>
+                <strong>{item.namn}:</strong> {item.varde}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
