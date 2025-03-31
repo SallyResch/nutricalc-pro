@@ -69,7 +69,7 @@ export default function FoodSearchByName() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Skriv livsmedlets namn..."
-        style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+        style={{ width: "100%", padding: "8px", marginBottom: "10px", backgroundColor:"whitesmoke", border: "4px solid #000", borderRadius: "4px" }}
       />
 
       {loading && <p>Laddar...</p>}
@@ -77,8 +77,8 @@ export default function FoodSearchByName() {
 
       {filteredFoods.length > 0 && (
         <ul style={{ listStyle: "none", padding: 0 }}>
-          {filteredFoods.map(food => (
-            <li key={food.id} style={{ cursor: "pointer", padding: "5px", borderBottom: "1px solid #ccc" }}
+          {filteredFoods.map((food) => (
+            <li key={food.nummer} style={{ cursor: "pointer", padding: "5px", borderBottom: "1px solid #ccc" }}
                 onClick={() => setSelectedFood(food)}>
               {food.namn}
             </li>
@@ -89,7 +89,7 @@ export default function FoodSearchByName() {
       {selectedFood && (
         <div style={{ marginTop: "20px", padding: "10px", border: "1px solid #ccc", backgroundColor: "#f9f9f9" }}>
           <h2>{selectedFood.namn}</h2>
-          <p><strong>Livsmedels ID:</strong> {selectedFood.nummer || "Ingen analysinfo"}</p>
+          <p><strong>Analys:</strong> {selectedFood.analys || "Ingen analysinfo"}</p>
         </div>
       )}
 
