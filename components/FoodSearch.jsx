@@ -30,7 +30,8 @@ export default function FoodSearch() {
       // Extrahera endast namn och värde för näringsvärdena
       const filteredNutrition = nutritionData.map(item => ({
         namn: item.namn,
-        varde: item.varde
+        varde: item.varde,
+        enhet: item.enhet,
       }));
 
       setNutrition(filteredNutrition);
@@ -73,7 +74,7 @@ export default function FoodSearch() {
           <ul style={{ listStyle: "none", padding: 0 }}>
             {nutrition.map((item, index) => (
               <li key={index}>
-                <strong>{item.namn}:</strong> {item.varde}
+                <strong>{item.namn}:</strong> {item.varde} {item.enhet}
               </li>
             ))}
           </ul>
