@@ -6,6 +6,7 @@ export default function FoodSearchByName() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [selectedFood, setSelectedFood] = useState(null);
+  const [nutrition, setNutrition] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -40,6 +41,26 @@ export default function FoodSearchByName() {
     }
   }, [searchTerm, foodList]);
 
+  // Hämta näringsvärden för valt livsmedel
+  useEffect(() => {
+    if (!selectedFood) return;
+    async function fetchNutrition() {
+      setLoading(true);
+      try {
+        const res = await fetch(`https://dataportal.livsmedelsverket.se/livsmedel/api/v1/livsmedel/${selectedFood.nummer}/naringsvarden?sprak=1`);
+        if (!res.ok) throw new Error("Kunde inte hämta näringsvärden");
+        const data = await res.json();
+        setNutrition(data || []);
+        setFilteredFoods([]); // Ta bort listan när ett livsmedel har valts
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchNutrition();
+  }, [selectedFood]);
+
   return (
     <div style={{ maxWidth: "400px", margin: "auto", padding: "20px", textAlign: "center" }}>
       <h1>Sök Livsmedel</h1>
@@ -51,7 +72,7 @@ export default function FoodSearchByName() {
         style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
       />
 
-      {loading && <p>Laddar livsmedel...</p>}
+      {loading && <p>Laddar...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       {filteredFoods.length > 0 && (
@@ -68,7 +89,20 @@ export default function FoodSearchByName() {
       {selectedFood && (
         <div style={{ marginTop: "20px", padding: "10px", border: "1px solid #ccc", backgroundColor: "#f9f9f9" }}>
           <h2>{selectedFood.namn}</h2>
-          <p><strong>Analys:</strong> {selectedFood.analys || "Ingen analysinfo"}</p>
+          <p><strong>Livsmedels ID:</strong> {selectedFood.nummer || "Ingen analysinfo"}</p>
+        </div>
+      )}
+
+      {nutrition && (
+        <div style={{ marginTop: "10px", padding: "10px", border: "1px solid #ccc", backgroundColor: "#eef" }}>
+          <h3>Näringsvärden (per 100g)</h3>
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {nutrition.map((item, index) => (
+              <li key={index}>
+                <strong>{item.namn}:</strong> {item.varde}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
