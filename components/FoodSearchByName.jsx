@@ -70,7 +70,6 @@ export default function FoodSearchByName() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Apelsin"
-        
       />
 
       {loading && <p>Laddar...</p>}
@@ -93,7 +92,7 @@ export default function FoodSearchByName() {
           <ul >
             {nutrition.map((item, index) => (
               <li key={index}>
-                <strong>{item.namn}:</strong> {item.varde}{item.enhet}
+                <strong>{item.namn}:</strong> {item.varde} {item.enhet}
               </li>
             ))}
           </ul>
