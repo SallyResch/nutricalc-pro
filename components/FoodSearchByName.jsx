@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import styles from "../components/FoodSearchByName.module.css";
 
 export default function FoodSearchByName() {
   const [foodList, setFoodList] = useState([]);
@@ -62,23 +63,23 @@ export default function FoodSearchByName() {
   }, [selectedFood]);
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", padding: "20px", textAlign: "center" }}>
-      <h1>Sök Livsmedel</h1>
-      <input
+    <div className={styles.container}>
+      <h1>Food Nutrition Calculator</h1>
+      <input className={styles.textInput}
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Skriv livsmedlets namn..."
-        style={{ width: "100%", padding: "8px", marginBottom: "10px", backgroundColor:"whitesmoke", border: "4px solid #000", borderRadius: "4px" }}
+        placeholder="Apelsin"
+        
       />
 
       {loading && <p>Laddar...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p>{error}</p>}
 
       {filteredFoods.length > 0 && (
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <ul >
           {filteredFoods.map((food) => (
-            <li key={food.nummer} style={{ cursor: "pointer", padding: "5px", borderBottom: "1px solid #ccc" }}
+            <li key={food.nummer}
                 onClick={() => setSelectedFood(food)}>
               {food.namn}
             </li>
@@ -86,20 +87,13 @@ export default function FoodSearchByName() {
         </ul>
       )}
 
-      {selectedFood && (
-        <div style={{ marginTop: "20px", padding: "10px", border: "1px solid #ccc", backgroundColor: "#f9f9f9" }}>
-          <h2>{selectedFood.namn}</h2>
-          <p><strong>Analys:</strong> {selectedFood.analys || "Ingen analysinfo"}</p>
-        </div>
-      )}
-
       {nutrition && (
-        <div style={{ marginTop: "10px", padding: "10px", border: "1px solid #ccc", backgroundColor: "#eef" }}>
+        <div >
           <h3>Näringsvärden (per 100g)</h3>
-          <ul style={{ listStyle: "none", padding: 0 }}>
+          <ul >
             {nutrition.map((item, index) => (
               <li key={index}>
-                <strong>{item.namn}:</strong> {item.varde}
+                <strong>{item.namn}:</strong> {item.varde}{item.enhet}
               </li>
             ))}
           </ul>
