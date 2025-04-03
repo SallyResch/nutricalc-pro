@@ -1,11 +1,9 @@
 import FoodSearchAddList from "@/components/FoodSearchAddList";
-import FoodSearchByName from "@/components/FoodSearchByName";
-import Image from "next/image";
 
 export default function Home() {
   return (
-    <div >
-      <FoodSearchByName />
+    <div className="flex flex-col items-center justify-center">
+      <h1>NutriCalc Pro</h1>
       <FoodSearchAddList />
     </div>
   );

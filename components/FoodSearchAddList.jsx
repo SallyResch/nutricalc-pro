@@ -7,6 +7,7 @@ export default function FoodSearchAddList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [selectedFoods, setSelectedFoods] = useState([]);
+  const [removedFoods, setRemovedFoods] = useState([]);
   const [nutritionData, setNutritionData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -104,14 +105,15 @@ export default function FoodSearchAddList() {
         </ul>
       )}
 
-      <h3>Valda livsmedel:</h3>
-      <ul>
+      <h3><strong>Valda livsmedel:</strong></h3>
+      <ul className={styles.selectedList}>
         {selectedFoods.map((food) => (
-          <li key={food.nummer}>{food.namn}</li>
+       <li key={food.nummer}>{food.namn}</li>
+          
         ))}
       </ul>
 
-      <h3>Totala Näringsvärden:</h3>
+      <h3>Totala Näringsvärden per 100g/livsmedel:</h3>
       <ul>
         {Object.entries(calculateTotalNutrition()).map(([key, { total, enhet }]) => (
           <li key={key}>

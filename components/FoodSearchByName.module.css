@@ -10,4 +10,8 @@
         border-radius: 5px;
         padding: 5px;
     }
+    .selectedList{
+        list-style-type: circle;
+        padding: 10px;
+    }
 }
