@@ -83,7 +83,7 @@ export default function FoodSearchAddList() {
 
   return (
     <div className={styles.container}>
-      <h1>Food Nutrition Calculator</h1>
+      <h2>Food Nutrition Calculator</h2>
       <input
         className={styles.textInput}
         type="text"
