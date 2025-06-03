@@ -5,102 +5,54 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        <span className="navbar-logo">NutriCalc Pro</span>
+    <nav className="w-full bg-[var(--speccolor)] text-[var(--foreground)] shadow-md sticky top-0 z-50">
+      <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-3">
+        <h1 className="font-bold text-lg">NutriCalc Pro</h1>
         <button
-          className="navbar-toggle"
+          className="md:hidden flex flex-col gap-1.5 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
           aria-label="Toggle menu"
           onClick={() => setOpen(!open)}
         >
-          <span className="navbar-toggle-bar" />
-          <span className="navbar-toggle-bar" />
-          <span className="navbar-toggle-bar" />
+          <span className="block w-6 h-0.5 bg-[var(--foreground)] rounded"></span>
+          <span className="block w-6 h-0.5 bg-[var(--foreground)] rounded"></span>
+          <span className="block w-6 h-0.5 bg-[var(--foreground)] rounded"></span>
         </button>
-        <ul className={`navbar-links${open ? " open" : ""}`}>
-          <li><a href="/">Home</a></li>
-          <li><a href="/features">Features</a></li>
-          <li><a href="/about">About</a></li>
+        <ul
+          className={`flex-col md:flex-row md:flex gap-8 md:gap-8 list-none m-0 p-0 absolute md:static top-16 right-0 bg-[var(--background)] md:bg-transparent shadow-lg md:shadow-none w-48 md:w-auto transition-all duration-300 ${
+            open
+              ? "flex opacity-100 pointer-events-auto"
+              : "hidden md:flex opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto"
+          }`}
+        >
+          <li>
+            <a
+              href="/"
+              className="block px-4 py-2 md:p-0 text-[var(--foreground)] hover:text-green-300 font-medium transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              Home
+            </a>
+          </li>
+          <li>
+            <a
+              href="/features"
+              className="block px-4 py-2 md:p-0 text-[var(--foreground)] hover:text-green-300 font-medium transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              Features
+            </a>
+          </li>
+          <li>
+            <a
+              href="/about"
+              className="block px-4 py-2 md:p-0 text-[var(--foreground)] hover:text-green-300 font-medium transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              About
+            </a>
+          </li>
         </ul>
       </div>
-      <style jsx>{`
-        .navbar {
-          width: 100%;
-          background: var(--speccolor);
-          color: var(--foreground);
-          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-          position: sticky;
-          top: 0;
-          z-index: 100;
-        }
-        .navbar-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0.75rem 1.5rem;
-        }
-        .navbar-logo {
-          font-weight: bold;
-          font-size: 1.3rem;
-        }
-        .navbar-links {
-          display: flex;
-          gap: 2rem;
-          list-style: none;
-          margin: 0;
-          padding: 0;
-        }
-        .navbar-links li a {
-          color: var(--foreground);
-          text-decoration: none;
-          font-weight: 500;
-          transition: color 0.2s;
-        }
-        .navbar-links li a:hover {
-          color: #38bdf8;
-        }
-        .navbar-toggle {
-          display: none;
-          flex-direction: column;
-          gap: 4px;
-          background: none;
-          border: none;
-          cursor: pointer;
-        }
-        .navbar-toggle-bar {
-          width: 24px;
-          height: 3px;
-          background: var(--foreground);
-          border-radius: 2px;
-        }
-        @media (max-width: 768px) {
-          .navbar-links {
-            position: absolute;
-            top: 60px;
-            right: 0;
-            background: var(--background);
-            flex-direction: column;
-            width: 180px;
-            gap: 1.5rem;
-            padding: 1.5rem 1rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.07);
-            transform: translateX(100%);
-            transition: transform 0.3s;
-            pointer-events: none;
-            opacity: 0;
-          }
-          .navbar-links.open {
-            transform: translateX(0);
-            pointer-events: auto;
-            opacity: 1;
-          }
-          .navbar-toggle {
-            display: flex;
-          }
-        }
-      `}</style>
     </nav>
   );
 };
